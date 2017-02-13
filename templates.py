@@ -35,7 +35,8 @@ api.add_resource(rroutes.%s, '/%s')
     rr_import = """from flask_restful import Resource
 """
 
-    if_main = """if __name__ == '__main__':
+    if_main = """
+    if __name__ == '__main__':
     # Change debug to False when in production
     # Add host='0.0.0.0' to test externally with ip address and not locally via localhost/127.0.0.0.1
     # Add port='9999' to change default port of 5000 to something else

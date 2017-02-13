@@ -2,17 +2,17 @@ import sys
 import os
 import time
 import shutil
+import argparse
 import templates
 from templates import FlaskStuff as Ft
 
 test_mode = True
 
-
 def cleanup():
     if test_mode and os.path.exists('output'):
         shutil.rmtree('output')
-        os.mkdir('output')
-        os.mkdir('output/templates')
+    os.mkdir('output')
+    os.mkdir('output/templates')
 
 
 def write2file(content, file_name):
@@ -24,6 +24,10 @@ def write2file(content, file_name):
                 new_file.write(c + '\n')
         '''
 
+def check_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--routes", help="enter routes here seperated by ,")
+    return parser.parse_args()
 
 class WebProjectFlask:
 
@@ -40,15 +44,16 @@ class WebProjectFlask:
     def create_index(self):
         write2file(templates.index_page, 'output/templates/index.html')
 
-    def create_project(self):
+    def create_project(self, arg_arr):
         self.create_appPy()
         write2file(Ft.rr_import, 'output/ramp_routes.py')
-        for num in range(1, int(sys.argv[1])+1):
-            self.create_route(sys.argv[num+1])
+        [self.create_route(a) for a in arg_arr]
         write2file(Ft.if_main, 'output/app.py')
         self.create_index()
 
-if __name__ == '__main__':
-    cleanup()
-    project = WebProjectFlask()
-    project.create_project()
+#if __name__ == '__main__':
+#    cleanup()
+#    args = check_args()
+#    aArr = args.routes.split(',')
+#    project = WebProjectFlask()
+#    project.create_project(aArr)
