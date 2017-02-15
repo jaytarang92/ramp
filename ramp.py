@@ -12,15 +12,14 @@ def main():
         print 'Folder exists already. Needs to be removed!'
         overwrite = raw_input("Would like to remove "+folder_name+", and it's contents? : [y/n]")
         if overwrite.lower() == 'y':
-            shutil.rmtree(folder_name)
+            wg.cleanup(folder_name)
         else:
             print 'Exiting. Please choose another folder name and relaunch!'
             os.exit(1)
-    os.mkdir(folder)
+    wg.cleanup(folder_name)
     while True:
         route = raw_input("What would you like you name your route? : ")
         #if route == '' or int(route[0]):
-
         #    print 'Sorry try again using a string!'
         #    route
         if route != '' and route != 'quit':
@@ -31,7 +30,7 @@ def main():
         else:
             print 'Sorry try again using a string!'
             route
-    wg.cleanup()
+    wg.cleanup(folder_name)
     project = wg.WebProjectFlask(folder_name)
     project.create_project(routes)
 

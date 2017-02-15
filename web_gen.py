@@ -6,13 +6,12 @@ import argparse
 import templates
 from templates import FlaskStuff as Ft
 
-test_mode = True
 
-def cleanup():
-    if test_mode and os.path.exists('output'):
-        shutil.rmtree('output')
-    os.mkdir('output')
-    os.mkdir('output/templates')
+def cleanup(folder_name):
+    if os.path.exists(folder_name):
+        shutil.rmtree(folder_name)
+    os.mkdir(folder_name)
+    os.mkdir(folder_name+'/templates')
 
 
 def write2file(content, file_name):
@@ -27,13 +26,13 @@ def write2file(content, file_name):
 def check_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--routes", help="enter routes here seperated by ,")
+    parser.add_argument("--folder", help="enter the folder/path to output files")
     return parser.parse_args()
 
 class WebProjectFlask:
 
     def __init__(self, fname):
         self.folder_name = fname
-        pass
 
     def create_route(self, rname):
         write2file(Ft.route % (rname, rname), '{}/ramp_routes.py'.format(self.folder_name))
@@ -43,8 +42,8 @@ class WebProjectFlask:
         write2file(Ft.header+Ft.index_func, '{0}/app.py'.format(self.folder_name))
 
     def create_index(self):
-        os.mkdir('{}/templates/'.format(self.folder_name))
         write2file(templates.index_page, '{}/templates/index.html'.format(self.folder_name))
+        write2file(templates.createYourOwn, '{}/templates/create.html'.format(self.folder_name))
 
     def create_project(self, arg_arr):
         self.create_appPy()

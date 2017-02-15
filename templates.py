@@ -3,12 +3,12 @@ index_page =  \
 <link rel="stylesheet" type="text/css" href="/static/skins/sunburst.css">
 <link rel="stylesheet" type="text/css" href="/static/prettify.css">
 <script src="/static/prettify.js"></script>
-<h1>Thanks for checking this generator out!<h1/>
+<span>Thanks for checking this generator out!<span/>
 
 <span>Below is some sample code behind the app that is running!</span>
 
 <body onload="PR.prettyPrint()">
-<pre class="prettyprint lang-go">
+<pre class="prettyprint">
 from flask import render_template
 from flask_restful import Api
 import ramp_routes as rroutes
@@ -29,6 +29,26 @@ def index():
 <body>
 """
 
+createYourOwn = \
+"""
+<link rel="stylesheet" type="text/css" href="/static/skins/sunburst.css">
+<link rel="stylesheet" type="text/css" href="/static/prettify.css">
+<script src="/static/prettify.js"></script>
+<span>Route does not exist yet but its easy! Take a look at the example below!</span>
+<body onload="PR.prettyPrint()">
+<pre class="prettyprint">
+# this goes into ramp_routes.py
+class {{route}}(Resource):
+
+    def get(self):
+        return {"route":"{{route}}"}
+
+# plug this into app.py before the if main clause
+api.add_resource(rroutes.{{route}}, '/{{route}}')
+</pre>
+<span>Pretty easy huh?</span>
+</body>
+"""
 
 class FlaskStuff:
 
@@ -48,6 +68,10 @@ api = Api(app)
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/<route_name>')
+def universal(route_name):
+    return render_template('create.html', route=route_name)
 """
     route = """
 class %s(Resource):
