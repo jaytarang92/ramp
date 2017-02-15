@@ -31,25 +31,29 @@ def check_args():
 
 class WebProjectFlask:
 
-    def __init__(self):
+    def __init__(self, fname):
+        self.folder_name = fname
         pass
 
     def create_route(self, rname):
-        write2file(Ft.route % (rname, rname), 'output/ramp_routes.py')
-        write2file(Ft.resource % (rname, rname), 'output/app.py')
+        write2file(Ft.route % (rname, rname), '{}/ramp_routes.py'.format(self.folder_name))
+        write2file(Ft.resource % (rname, rname), '{}/app.py'.format(self.folder_name))
 
     def create_appPy(self):
-        write2file(Ft.header+Ft.index_func, 'output/app.py')
+        write2file(Ft.header+Ft.index_func, '{0}/app.py'.format(self.folder_name))
 
     def create_index(self):
-        write2file(templates.index_page, 'output/templates/index.html')
+        os.mkdir('{}/templates/'.format(self.folder_name))
+        write2file(templates.index_page, '{}/templates/index.html'.format(self.folder_name))
 
     def create_project(self, arg_arr):
         self.create_appPy()
-        write2file(Ft.rr_import, 'output/ramp_routes.py')
+        write2file(Ft.rr_import, '{}/ramp_routes.py'.format(self.folder_name))
         [self.create_route(a) for a in arg_arr]
-        write2file(Ft.if_main, 'output/app.py')
+        write2file(Ft.if_main, '{}/app.py'.format(self.folder_name))
         self.create_index()
+        os.mkdir('{}/static'.format(self.folder_name))
+        os.system("cp -rv code-prettify/* {}/static/.".format(self.folder_name))
 
 #if __name__ == '__main__':
 #    cleanup()
