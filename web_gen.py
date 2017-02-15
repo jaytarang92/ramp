@@ -17,11 +17,6 @@ def cleanup(folder_name):
 def write2file(content, file_name):
     with open(file_name, 'a+') as new_file:
         new_file.write(content)
-        '''
-        for c in content.split('\n'):
-            if c.rstrip():
-                new_file.write(c + '\n')
-        '''
 
 def check_args():
     parser = argparse.ArgumentParser()

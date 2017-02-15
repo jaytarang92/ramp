@@ -38,13 +38,13 @@ createYourOwn = \
 <body onload="PR.prettyPrint()">
 <pre class="prettyprint">
 # this goes into ramp_routes.py
-class {{route}}(Resource):
+class {{className}}(Resource):
 
     def get(self):
         return {"route":"{{route}}"}
 
 # plug this into app.py before the if main clause
-api.add_resource(rroutes.{{route}}, '/{{route}}')
+api.add_resource(rroutes.{{className}}, '/{{route}}')
 </pre>
 <span>Pretty easy huh?</span>
 </body>
@@ -69,9 +69,9 @@ api = Api(app)
 def index():
     return render_template('index.html')
 
-@app.route('/<route_name>')
-def universal(route_name):
-    return render_template('create.html', route=route_name)
+@app.route('/<path:path>')
+def universal(path):
+    return render_template('create.html', route=path, className=path.replace('/', '_'))
 """
     route = """
 class %s(Resource):
